@@ -26,7 +26,7 @@ into FauxPy.
 
 FauxPy supports **seven classic fault localization techniques** in four families:
 
-1. **SBFL** (spectrum-based) techniques Tarantula, Ochiai, and DStar.
+1. **SBFL** (spectrum-based) techniques Tarantula, Ochiai, DStar, and Jaccard.
 2. **MBFL** (mutation-based) techniques Metallaxis and Muse.
 3. **PS** (predicate switching) fault localization.
 4. **ST** (stack-trace) fault localization.

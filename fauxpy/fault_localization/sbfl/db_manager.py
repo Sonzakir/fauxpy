@@ -53,7 +53,8 @@ class SbflDbManager:
             f"Np REAL NOT NULL, "
             f"Tarantula REAL NOT NULL, "
             f"Ochiai REAL NOT NULL, "
-            f"Dstar REAL NOT NULL);"
+            f"Dstar REAL NOT NULL, "
+            f"Jaccard REAL NOT NULL);"
         )
 
         execution_trace_table_index_command = (
@@ -76,6 +77,10 @@ class SbflDbManager:
             f"CREATE INDEX index_Dstar ON {self._Score_table} (Dstar);"
         )
 
+        score_jaccard_table_index_command = (
+            f"CREATE INDEX index_Jaccard ON {self._Score_table} (Jaccard);"
+        )
+
         view_create_command = (
             f"CREATE VIEW {self._Execution_trace_with_test_type_view} AS "
             f"SELECT {self._Execution_trace_table}.Entity, {self._Execution_trace_table}.TestName, {self._Test_case_table}.Type, {self._Test_case_table}.Target "
@@ -93,6 +98,7 @@ class SbflDbManager:
             score_tarantula_table_index_command,
             score_ochiai_table_index_command,
             score_dstar_table_index_command,
+            score_jaccard_table_index_command,
             view_create_command,
         ]
 
@@ -175,7 +181,7 @@ class SbflDbManager:
         cur = self._connection.cursor()
         cur.execute(
             f"INSERT INTO {self._Score_table} "
-            f"VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)",
+            f"VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 entity,
                 ef,
@@ -185,6 +191,7 @@ class SbflDbManager:
                 scores["Tarantula"],
                 scores["Ochiai"],
                 scores["Dstar"],
+                scores["Jaccard"],
             ),
         )
 
@@ -210,10 +217,17 @@ class SbflDbManager:
         )
         score_dstar = cur.fetchall()
 
+        cur.execute(
+            f"SELECT Entity, Jaccard FROM {self._Score_table} ORDER BY Jaccard DESC LIMIT ?",
+            (top_n,),
+        )
+        score_jaccard = cur.fetchall()
+
         ranked_entities = {
             "Tarantula": score_tarantula,
             "Ochiai": score_ochiai,
             "Dstar": score_dstar,
+            "Jaccard": score_jaccard,
         }
 
         return ranked_entities
@@ -235,10 +249,16 @@ class SbflDbManager:
         )
         score_dstar = cur.fetchall()
 
+        cur.execute(
+            f"SELECT Entity, Jaccard FROM {self._Score_table} ORDER BY Jaccard DESC"
+        )
+        score_jaccard = cur.fetchall()
+
         ranked_entities = {
             "Tarantula": score_tarantula,
             "Ochiai": score_ochiai,
             "Dstar": score_dstar,
+            "Jaccard": score_jaccard,
         }
 
         return ranked_entities

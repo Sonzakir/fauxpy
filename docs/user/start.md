@@ -222,8 +222,8 @@ python -m pytest tests --src code
 ```
 
 By default, FauxPy runs SBFL (spectrum-based fault localization). The
-command finishes quickly, printing three tables, one for each SBFL
-technique currently supported by FauxPy: Tarantula, Ochiai, and DStar.
+command finishes quickly, printing four tables, one for each SBFL
+technique currently supported by FauxPy: Tarantula, Ochiai, DStar, and Jaccard.
 
 The table for Tarantula looks something like the following.
 Each row in

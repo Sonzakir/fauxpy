@@ -2,6 +2,7 @@ from typing import List, Tuple
 
 from fauxpy.fault_localization.sbfl.db_manager import SbflDbManager
 from fauxpy.fault_localization.sbfl.metric_dstar import MetricDstar
+from fauxpy.fault_localization.sbfl.metric_jaccard import MetricJaccard
 from fauxpy.fault_localization.sbfl.metric_ochiai import MetricOchiai
 from fauxpy.fault_localization.sbfl.metric_tarantula import MetricTarantula
 
@@ -24,6 +25,7 @@ class RankingMetricManager:
             MetricTarantula(self.EPSILON),
             MetricOchiai(self.EPSILON),
             MetricDstar(self.EPSILON),
+            MetricJaccard(self.EPSILON),
         ]
 
     def _ranking_metric(self, ef, ep, nf, np):
